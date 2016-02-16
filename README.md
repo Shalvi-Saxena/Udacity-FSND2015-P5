@@ -1,48 +1,51 @@
-# Udacity-FSND2015-P5
-Udacity Full Stack Nanodegree Project 5 - Linux Server Configuration
+# Udacity Full Stack Nanodegree Project 5 - Linux Server Configuration
 
-Server IP: 52.11.69.16
+## Project Location
+* Server IP: 52.11.69.16
+* Port: 2200
+* Project Accesible at: http://ec2-52-11-69-16.us-west-2.compute.amazonaws.com/
 
-Port: 2200
 
-
-`ssh -i ~/.ssh/udacity_key.rsa grader@52.11.69.16 -p 2200`
+`ssh -i ~/.ssh/grader.rsa grader@52.11.69.16 -p 2200`
 
 ## Create grader Account
+* Created **grader** account with the following command: `sudo adduser grader`
 
-`sudo adduser grader`
+* Resources used for this step.
+  * https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089468
 
-https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089468
+## Give **grader** SUDO
+* Create the file `grader` in /etc/sudoer.d/ with `touch /etc/sudoer.d/grader`
+* Add the following text to the newly created file: `grader ALL=(ALL:ALL) ALL`
+* Resources used for this step.
+  * https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089471
 
-https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-14-04
+## SSH Keys
 
+* Create SSH key with **ssh-keygen**
+* Paste the public key to `/home/grader/.ssh/authorized_keys`
+* Resources used for this step.
+  * https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089477
+  * https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089481
 
-## Give grader SUDO
-
-https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089471
-
-## keys 
-
-https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089477
-
-https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089481
 
 ##  Update Packages
 
-`sudo apt-get update`
-`sudo apt-get upgrade`
+* Use the following commands to update the packages on the server.
+  * `sudo apt-get update`
+  * `sudo apt-get upgrade`
+
+## Change the SSH Port to 2200
 
 
+## Login with **grader**
+* Use the command `ssh -i ~/.ssh/grader.rsa grader@52.11.69.16 -p 2200`
 
 
-Launch your Virtual Machine with your Udacity account and log in. You can manage your virtual server at: https://www.udacity.com/account#!/development_environment
-Create a new user named grader and grant this user sudo permissions.
-Update all currently installed packages.
 Configure the local timezone to UTC.
 Secure your Server
 
-Danger!
-It is very easy to inadvertently lock yourself out of the server. If this happens you will have to delete your server and start from scratch. Complete these steps before proceeding, and double check every command before running it!
+
 Change the SSH port from 22 to 2200
 Configure the Uncomplicated Firewall (UFW) to only allow incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123)
 Install your application
