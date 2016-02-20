@@ -8,6 +8,8 @@
 
 `ssh -i ~/.ssh/grader.rsa grader@52.11.69.16 -p 2200`
 
+
+
 ## Create grader Account
 * Created **grader** account with the following command: `sudo adduser grader`
 
@@ -24,10 +26,15 @@
 
 * Create SSH key with **ssh-keygen**
 * Paste the public key to `/home/grader/.ssh/authorized_keys`
+* Set directory permissions
+  * Using `chmod` set `~/.ssh` to 700
+  * Again, using 644 `~/ssh/suthorized_keys`
 * Resources used for this step.
   * https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089477
   * https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089481
-
+* Disable password Login
+  * `/etc/ssh/sshd_conf`
+  * Resart ssh with sudo service ssh restart
 
 ##  Update Packages
 
@@ -35,27 +42,30 @@
   * `sudo apt-get update`
   * `sudo apt-get upgrade`
 
-## Change the SSH Port to 2200
 
 
 ## Login with **grader**
 * Use the command `ssh -i ~/.ssh/grader.rsa grader@52.11.69.16 -p 2200`
 
 
-Configure the local timezone to UTC.
-Secure your Server
+## Change the SSH Port from 22 to 2200
 
+## Configure the local timezone to UTC.
 
-Change the SSH port from 22 to 2200
+## Configure the firewall
 Configure the Uncomplicated Firewall (UFW) to only allow incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123)
-Install your application
 
-Install and configure Apache to serve a Python mod_wsgi application
-Install and configure PostgreSQL:
-Do not allow remote connections
-Create a new user named catalog that has limited permissions to your catalog application database
-Install git, clone and set up your Catalog App project (from your GitHub repository from earlier in the Nanodegree program) so that it functions correctly when visiting your server’s IP address in a browser. Remember to set this up appropriately so that your .git directory is not publicly accessible via a browser!
- Your Amazon EC2 Instance's public URL will look something like this: http://ec2-XX-XX-XXX-XXX.us-west-2.compute.amazonaws.com/ where the X's are replaced with your instance's IP address. You can use this url when configuring third party authentication.
+
+## Install your application
+
+### Install and configure Apache to serve a Python mod_wsgi application
+### Install and configure PostgreSQL:
+* Do not allow remote connections
+* Create a new user named catalog that has limited permissions to your catalog application database
+* Install git, clone and set up your Catalog App project (from your GitHub repository from earlier in the Nanodegree program) so that it functions correctly when visiting your server’s IP address in a browser. Remember to set this up appropriately so that your .git directory is not publicly accessible via a browser!
+Your Amazon EC2 Instance's public URL will look something like this: http://ec2-XX-XX-XXX-XXX.us-west-2.compute.amazonaws.com/ where the X's are replaced with your instance's IP address. You can use this url when configuring third party authentication.
+
+
 Additional Functionality
 
 In addition to the basic functions listed above, this project has several opportunities to go above and beyond what is required. These entail configuring more sophisticated server monitoring and security update processes.
