@@ -55,6 +55,10 @@
 ## Configure the firewall
 Configure the Uncomplicated Firewall (UFW) to only allow incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123)
 
+Don't activate firewall until it is configured less ye lock yourself out.
+
+https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089498
+
 
 ## Install your application
 
