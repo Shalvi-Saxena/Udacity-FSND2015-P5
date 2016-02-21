@@ -10,6 +10,7 @@
 * [Create Grader Account](#create-grader-account)
 * [Give Grader SUDO](#give-grader-sudo)
 * [Create SSH Keys](#create-ssh-keys)
+* [Update Packages](#update-packages)
 * [Configure Timezone](#configure-timezone)
 * [Change SSH Port](#change-ssh-port)
 * [Configure Firewall](#configure-firewall)
@@ -27,23 +28,28 @@
   * https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089468
 
 ## Give **grader** SUDO
-* Create the file `grader` in /etc/sudoer.d/ with `touch /etc/sudoer.d/grader`
+* Create the file `grader` in /etc/sudoer.d/ with `touch /etc/sudoers.d/grader`
 * Add the following text to the newly created file: `grader ALL=(ALL:ALL) ALL`
 * Resources used for this step.
   * https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089471
 
 ## Create SSH Keys
 * Create SSH key with **ssh-keygen**
-* Paste the public key to `/home/grader/.ssh/authorized_keys`
+* Create an `.ssh` direcory in `/home/grader/` on the server with `mkdir .ssh`.
+* CD into the the directory just created with `cd ~/.ssh/`.
+* Create an `authorized_keys` file in the `.ssh` dirctory with `touch authorized_keys`.
+* Paste the public key into `/home/grader/.ssh/authorized_keys`
 * Set directory permissions
-  * Using `chmod` set `~/.ssh` to 700
-  * Again, using 644 `~/ssh/suthorized_keys`
+  * Using `chmod` set `~/.ssh` to 700 with `chmod 700 /home/grader/.ssh/`.
+  * Again, using `chmod` set the `authorized_keys` file to 644 with `chmod 644 /home/grader/.ssh/authorized_keys`.
+* Check owner and group of `~/.ssh` and `~/.ssh/authorized_keys`.
+* If the owner and group are not **grader**, set them to **grader** with 
+* Check to ensure you can log into the **grader** account with `ssh -i ~/.ssh/grader.rsa  grader@52.36.219.116`.
+  * Recheck you followed the steps above in the event of an issue or Google the error message.  This how I figured out that password login was disabled on my instance already.
 * Resources used for this step.
   * https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089477
   * https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089481
-* Disable password Login
-  * `/etc/ssh/sshd_conf`
-  * Resart ssh with sudo service ssh restart
+
 
 ##  Update Packages
 * Use the following commands to update the packages on the server.
@@ -57,6 +63,9 @@
 
 
 ## Change the SSH Port from 22 to 2200
+* Disable password Login
+  * `/etc/ssh/sshd_conf`
+  * Resart ssh with sudo service ssh restart
 
 ## Configure the local timezone to UTC.
 
