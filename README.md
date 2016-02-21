@@ -1,18 +1,28 @@
 # Udacity Full Stack Nanodegree Project 5 - Linux Server Configuration
 
 ## Project Location
-* Server IP: 52.11.69.16
+* Server IP: 52.36.219.116
 * Port: 2200
-* Project Accesible at: http://ec2-52-11-69-16.us-west-2.compute.amazonaws.com/
+* Project Accesible at: http://ec2-52-36-219-116.us-west-2.compute.amazonaws.com/
+* SSH access via `ssh -i ~/.ssh/grader.rsa grader@52.11.69.16 -p 2200`
 
-
-`ssh -i ~/.ssh/grader.rsa grader@52.11.69.16 -p 2200`
-
+## Table of Contents
+* [Create Grader Account](#create-grader-account)
+* [Give Grader SUDO](#give-grader-sudo)
+* [Create SSH Keys](#create-ssh-keys)
+* [Configure Timezone](#configure-timezone)
+* [Change SSH Port](#change-ssh-port)
+* [Configure Firewall](#configure-firewall)
+* [Install Apache](#install-apache)
+* [Serve A Python mod_wsgi Application](#serve-a-python-mod_wsgi-application)
+* [Install PostgreSQL](#install0-postgresql)
+* [Install Git](#install-git)
+* [Install App](#install-app)
+* [Additional Steps](#additional-steps)
 
 
 ## Create grader Account
 * Created **grader** account with the following command: `sudo adduser grader`
-
 * Resources used for this step.
   * https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089468
 
@@ -22,8 +32,7 @@
 * Resources used for this step.
   * https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089471
 
-## SSH Keys
-
+## Create SSH Keys
 * Create SSH key with **ssh-keygen**
 * Paste the public key to `/home/grader/.ssh/authorized_keys`
 * Set directory permissions
@@ -37,7 +46,6 @@
   * Resart ssh with sudo service ssh restart
 
 ##  Update Packages
-
 * Use the following commands to update the packages on the server.
   * `sudo apt-get update`
   * `sudo apt-get upgrade`
@@ -95,5 +103,8 @@ P5 How I got through it
 
 
 https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-14-04
+https://www.digitalocean.com/community/tutorials/how-to-connect-to-your-droplet-with-ssh
+https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-14-04
+https://www.digitalocean.com/community/tutorials/additional-recommended-steps-for-new-ubuntu-14-04-servers
 
 [Project Guide](https://docs.google.com/document/d/1J0gpbuSlcFa2IQScrTIqI6o3dice-9T7v8EDNjJDfUI/pub?embedded=true)
