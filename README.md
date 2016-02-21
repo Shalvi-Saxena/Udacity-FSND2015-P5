@@ -27,11 +27,13 @@
 * Resources used for this step.
   * https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089468
 
+
 ## Give **grader** SUDO
 * Create the file `grader` in /etc/sudoer.d/ with `touch /etc/sudoers.d/grader`
 * Add the following text to the newly created file: `grader ALL=(ALL:ALL) ALL`
 * Resources used for this step.
   * https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089471
+
 
 ## Create SSH Keys
 * Create SSH key with **ssh-keygen**
@@ -54,27 +56,49 @@
 ##  Update Packages
 * Use the following commands to update the packages on the server.
   * `sudo apt-get update`
-  * `sudo apt-get upgrade`
+  * `sudo apt-get upgrade`. Type "Y" when asked if you would like to proceed.
+*  Resources used in this step.
+  * https://help.ubuntu.com/community/AptGet/Howto
 
 
+## Configure Timezone
+* Check the current timezone with `date`.
+* If you do not set UTC in the output change the timezone with `dpkg-reconfigure tzdata`.
+* Resources used for this step.
+  * https://help.ubuntu.com/community/UbuntuTime
 
-## Login with **grader**
-* Use the command `ssh -i ~/.ssh/grader.rsa grader@52.11.69.16 -p 2200`
 
+## Change the SSH Port
+* Use `nano` to edit the SSH config file with `sudo /etc/ssh/sshd_config`.
+* Change the default port from 22 to 2200 by changing the following
 
-## Change the SSH Port from 22 to 2200
-* Disable password Login
-  * `/etc/ssh/sshd_conf`
-  * Resart ssh with sudo service ssh restart
+```
+# What ports, IPs and protocols we listen for
+Port 22
+```
+ 
+ to 
+ 
+ ```
+ # What ports, IPs and protocols we listen for
+ Port 2200
+ ```
+  
+* Check to see that password login is disabled.
+  * You should see the following in the file. If set to "yes" change it to "no" and save the file.
+```
+# Change to no to disable tunnelled clear text passwords
+PasswordAuthentication no
+```
+* Resart ssh with `sudo service ssh restart`
 
-## Configure the local timezone to UTC.
 
 ## Configure the firewall
-Configure the Uncomplicated Firewall (UFW) to only allow incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123)
-
-Don't activate firewall until it is configured less ye lock yourself out.
-
-https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089498
+* Configure the Uncomplicated Firewall (UFW) to only allow incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123)
+* 
+* Don't activate firewall until it is configured less ye lock yourself out.
+* Resources used for this step.
+  * https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089498
 
 
 ## Install your application
