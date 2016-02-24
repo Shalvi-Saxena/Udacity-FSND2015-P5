@@ -94,20 +94,25 @@ PasswordAuthentication no
 
 
 ## Configure the firewall
-* Configure the Uncomplicated Firewall (UFW) to only allow incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123)
-* 
-* Don't activate firewall until it is configured less ye lock yourself out.
+* Check the status of the firewall with `sudo ufw status`.
+* Ensure that by default inbound connections are denied with `sudo ufw default deny incoming`.
+* Ensure the all outbound connections are allowed with `sudo ufw default allow outgoing`.
+* Open ports for SSH, HTTP, and NTP with the following commands.
+  * `sudo ufw allow 2200/tcp`
+  * `sudo ufw allow www`
+  * `sudo ufw allow ntp`
+* Activate the firewall with `sudo ufw enable`.
 * Resources used for this step.
   * https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089498
 
 
 ## Install your application
 
-### Install and configure Apache to serve a Python mod_wsgi application
-### Install and configure PostgreSQL:
-* Do not allow remote connections
-* Create a new user named catalog that has limited permissions to your catalog application database
-* Install git, clone and set up your Catalog App project (from your GitHub repository from earlier in the Nanodegree program) so that it functions correctly when visiting your server’s IP address in a browser. Remember to set this up appropriately so that your .git directory is not publicly accessible via a browser!
+* Install and configure Apache to serve a Python mod_wsgi application
+* Install and configure PostgreSQL:
+  * Do not allow remote connections
+  * Create a new user named catalog that has limited permissions to your catalog application database
+  * Install git, clone and set up your Catalog App project (from your GitHub repository from earlier in the Nanodegree program) so that it functions correctly when visiting your server’s IP address in a browser. Remember to set this up appropriately so that your .git directory is not publicly accessible via a browser!
 Your Amazon EC2 Instance's public URL will look something like this: http://ec2-XX-XX-XXX-XXX.us-west-2.compute.amazonaws.com/ where the X's are replaced with your instance's IP address. You can use this url when configuring third party authentication.
 
 
