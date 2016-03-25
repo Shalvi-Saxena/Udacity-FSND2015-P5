@@ -127,10 +127,18 @@ PasswordAuthentication no
 * Resources used for this step.
   * https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu-14-04
 
+### Install mod_wsgi
+* Install libapache2-mod-wsgi with this command:
 
+  `sudo apt-get install libapache2-mod-wsgi python-dev`
+* Enable libapache2-mod-wsgi:
+
+  `sudo a2enmod wsgi`
+* Resources used for this step.
+  * https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps
+  * https://www.digitalocean.com/community/tutorials/how-to-serve-django-applications-with-apache-and-mod_wsgi-on-ubuntu-14-04
 
 # Remaining Tasks
-* Install and configure Apache to serve a Python mod_wsgi application
 * Install and configure PostgreSQL:
   * Do not allow remote connections
   * Create a new user named catalog that has limited permissions to your catalog application database
