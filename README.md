@@ -93,7 +93,7 @@ PasswordAuthentication no
 * Resart ssh with `sudo service ssh restart`
 
 
-## Configure the firewall
+## Configure Firewall
 * Check the status of the firewall with `sudo ufw status`.
 * Ensure that by default inbound connections are denied with `sudo ufw default deny incoming`.
 * Ensure the all outbound connections are allowed with `sudo ufw default allow outgoing`.
