@@ -123,7 +123,7 @@ PasswordAuthentication no
   `sudo apt-get install apache2`
 * If you have installed Apache correctly you should see this page at the public IP address.
 
-  ![Apache Default Page](https://github.com/larrytooley/Udacity-FSND2015-P5/img/apache-default.png)
+  ![Apache Default Page](https://github.com/larrytooley/Udacity-FSND2015-P5/blob/master/img/apache_default.png)
 * Resources used for this step.
   * https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu-14-04
 
