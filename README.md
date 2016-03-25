@@ -138,10 +138,79 @@ PasswordAuthentication no
   * https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps
   * https://www.digitalocean.com/community/tutorials/how-to-serve-django-applications-with-apache-and-mod_wsgi-on-ubuntu-14-04
 
+## Install PostgreSQL
+* Install PostgreSQL:
+
+  ```shell
+  sudo apt-get update
+  sudo apt-get install postgresql postgresql-contrib
+  ```
+
+* Ensure remote connections are disabled.
+
+  `sudo nano /etc/postgresql/9.3/main/pg_hba.conf`
+
+  * The default configuration disables remote connections by default.  Here is a cleaned up version of the section that controls connections.
+
+
+  | Type    |Database       |User          |Address                 | Method |
+  | ------- | ------------- | ------------ | ---------------------- | ------ |
+  |local    |all            |postgres      |                        | peer   |
+  |local    |all            |all           |                        | peer   |
+  |host     |all            |all           | 127.0.0.1/32           | md5    |
+  |host     |all            |all           | ::1/128                | md5    |
+
+  The host IPs point to local addresses by default.
+
+* Create a new role named **catalog** with:
+  ```shell
+  sudo -u -i postgres
+  psql```
+
+  ```sql
+  CREATE USER catalog WITH CREATEDB;
+  \password catalog
+  ```
+  Enter the desired password.
+
+* By default PostgreSQL requires a matching system user for any role. For example, it expects a system user **catalog** when attempting to login with:
+```
+sudo su - catalog
+sudo: unable to resolve host ip-10-20-7-202
+No passwd entry for user 'catalog'
+```
+
+* In order to avoid creating an additional system user with the user name **catalog** we login to with the following and enter the password we provided previously:
+```shell
+psql -U catalog -d postgres -h 127.0.0.1 -W
+```
+
+* Check that **catalog** is the current user:
+```sql
+SELECT current_user;
+```
+* Create the catalog database:
+```sql
+CREATE DATABASE catalog WITH OWNER catalog;
+```
+* Switch to **catalog** database:
+```sql
+postgres=> \c catalog
+Password for user catalog:
+SSL connection (cipher: DHE-RSA-AES256-GCM-SHA384, bits: 256)
+You are now connected to database "catalog" as user "catalog".
+catalog=>
+```
+
+* Resources used for this step.
+  * https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-14-04
+  * https://www.digitalocean.com/community/tutorials/how-to-secure-postgresql-on-an-ubuntu-vps
+  * https://www.digitalocean.com/community/tutorials/how-to-use-roles-and-manage-grant-permissions-in-postgresql-on-a-vps--2
+  * http://www.postgresql.org/message-id/20040930142124.GA72856@winnie.fuhr.org
+
+
+
 # Remaining Tasks
-* Install and configure PostgreSQL:
-  * Do not allow remote connections
-  * Create a new user named catalog that has limited permissions to your catalog application database
   * Install git, clone and set up your Catalog App project (from your GitHub repository from earlier in the Nanodegree program) so that it functions correctly when visiting your server’s IP address in a browser. Remember to set this up appropriately so that your .git directory is not publicly accessible via a browser!
 Your Amazon EC2 Instance's public URL will look something like this: http://ec2-XX-XX-XXX-XXX.us-west-2.compute.amazonaws.com/ where the X's are replaced with your instance's IP address. You can use this url when configuring third party authentication.
 
