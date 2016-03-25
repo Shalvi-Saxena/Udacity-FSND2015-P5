@@ -108,6 +108,28 @@ PasswordAuthentication no
 
 ## Install your application
 
+### Install Apache
+* Check to see if Apache is installed with `apache2 -v`
+* If Apache is installed you will see something like this:
+
+  `Server version: Apache/2.4.7 (Ubuntu)`
+
+  `Server built:   Jan 14 2016 17:45:23`
+* If you do not have Apache installed you will see a message like this:
+
+  `The program 'apache2' is currently not installed. To run 'apache2' please ask your administrator to install the package 'apache2-bin'`
+* To install Apache use the following commands:
+  `sudo apt-get update`
+  `sudo apt-get install apache2`
+* If you have installed Apache correctly you should see this page at the public IP address.
+
+  ![Apache Default Page](https://github.com/larrytooley/Udacity-FSND2015-P5/img/apache-default.png)
+* Resources used for this step.
+  * https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu-14-04
+
+
+
+# Remaining Tasks
 * Install and configure Apache to serve a Python mod_wsgi application
 * Install and configure PostgreSQL:
   * Do not allow remote connections
