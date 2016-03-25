@@ -45,7 +45,7 @@
   * Using `chmod` set `~/.ssh` to 700 with `chmod 700 /home/grader/.ssh/`.
   * Again, using `chmod` set the `authorized_keys` file to 644 with `chmod 644 /home/grader/.ssh/authorized_keys`.
 * Check owner and group of `~/.ssh` and `~/.ssh/authorized_keys`.
-* If the owner and group are not **grader**, set them to **grader** with 
+* If the owner and group are not **grader**, set them to **grader** with
 * Check to ensure you can log into the **grader** account with `ssh -i ~/.ssh/grader.rsa  grader@52.36.219.116`.
   * Recheck you followed the steps above in the event of an issue or Google the error message.  This how I figured out that password login was disabled on my instance already.
 * Resources used for this step.
@@ -68,7 +68,7 @@
   * https://help.ubuntu.com/community/UbuntuTime
 
 
-## Change the SSH Port
+## Change SSH Port
 * Use `nano` to edit the SSH config file with `sudo /etc/ssh/sshd_config`.
 * Change the default port from 22 to 2200 by changing the following
 
@@ -76,14 +76,14 @@
 # What ports, IPs and protocols we listen for
 Port 22
 ```
- 
- to 
- 
+
+ to
+
  ```
  # What ports, IPs and protocols we listen for
  Port 2200
  ```
-  
+
 * Check to see that password login is disabled.
   * You should see the following in the file. If set to "yes" change it to "no" and save the file.
 ```
