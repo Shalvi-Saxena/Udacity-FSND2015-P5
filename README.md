@@ -4,7 +4,7 @@
 * Server IP: 52.36.219.116
 * Port: 2200
 * Project Accesible at: http://ec2-52-36-219-116.us-west-2.compute.amazonaws.com/
-* SSH access via `ssh -i ~/.ssh/grader.rsa grader@52.11.69.16 -p 2200`
+* SSH access via `ssh -i ~/.ssh/grader.rsa grader@52.36.219.116 -p 2200`
 
 ## Table of Contents
 * [Create Grader Account](#create-grader-account)
