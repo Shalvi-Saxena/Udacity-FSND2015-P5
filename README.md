@@ -30,7 +30,7 @@
 
 ## Give **grader** SUDO
 * Create the file `grader` in /etc/sudoer.d/ with `touch /etc/sudoers.d/grader`
-* Add the following text to the newly created file: `grader ALL=(ALL:ALL) ALL`
+* Add the following text to the newly created file: `grader ALL=(ALL:ALL) NOPASSWD:ALL`
 * Resources used for this step.
   * https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089471
 
@@ -208,10 +208,117 @@ catalog=>
   * https://www.digitalocean.com/community/tutorials/how-to-use-roles-and-manage-grant-permissions-in-postgresql-on-a-vps--2
   * http://www.postgresql.org/message-id/20040930142124.GA72856@winnie.fuhr.org
 
+## Install Catalog App
+* Install git:
+```shell
+sudo apt-get install -y git
+```
+* Move to the directory where the app will be installed and clone app:
+```shell
+cd /var/www/
+sudo mkdir catalog
+cd catalog
+sudo git clone https://github.com/larrytooley/Udacity-FSND2015-P3.git catalog
+```
+* Create init file and add the following code to test the Apache setup:
+```shell
+sudo nano __init__.py
+```
+```python
+from flask import Flask
+app = Flask(__name__)
+@app.route("/")
+def hello():
+    return "Hello, I love Digital Ocean!"
+if __name__ == "__main__":
+    app.run()
+```
+* Set up environment and install Flask:
+```shell
+sudo apt-get install python-pip
+sudo pip install virtualenv
+cd /var/www/catalog/catalog/
+sudo virtualenv venv
+source venv/bin/activate
+sudo pip install Flask
+deactivate
+```
+* Configure and Enable New Virtual host
+  * Create a new configuration file:
+  ```shell
+  sudo nano /etc/apache2/sites-available/catalog.conf
+  ```
+  * Add this code to **catalog.conf**:
+  ```
+  <VirtualHost *:80>
+                ServerName http://ec2-52-36-219-116.us-west-2.compute.amazonaws.com
+                ServerAdmin larry@larrytooley.com
+                WSGIScriptAlias / /var/www/catalog/catalog.wsgi
+                <Directory /var/www/catalog/catalog/>
+                        Order allow,deny
+                        Allow from all
+                </Directory>
+                Alias /static /var/www/catalog/catalog/static
+                <Directory /var/www/catalog/catalog/static/>
+                        Order allow,deny
+                        Allow from all
+                </Directory>
+                ErrorLog ${APACHE_LOG_DIR}/error.log
+                LogLevel warn
+                CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+```
+* Enable the virtual host:
+```shell
+sudo a2ensite catalog
+```
+* Create a **.wsgi** file:
+```
+cd /var/www/catalog
+sudo nano catalog.wsgi
+```
+* Add code to file:
+```python
+#!/usr/bin/python
+import sys
+import logging
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0,"/var/www/catalog/")
+from catalog import app as application
+application.secret_key = 'Add your secret key'
+```
+* I generated application.secret_key locally and substituted it in the file:
+```shell
+python
+```
+```python
+import os
+os.urandom(24)
+```
+* Restart apache2
+```shell
+sudo service apache2 restart
+```
+* Secure .git
+  * Create an **.htaccess** file in the **.git** directory:
+  ```shell
+cd /var/www/catalog/catalog/.git
+sudo nano .htaccess
+```
+  * Add the following code to the file:
+  ```shell
+Order allow,deny
+Deny from all
+```
 
+* Resources used for this step:
+  * https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps
+  * http://flask.pocoo.org/docs/0.10/quickstart/#sessions
+  * http://stackoverflow.com/questions/6142437/make-git-directory-web-inaccessible
 
 # Remaining Tasks
-  * Install git, clone and set up your Catalog App project (from your GitHub repository from earlier in the Nanodegree program) so that it functions correctly when visiting your server’s IP address in a browser. Remember to set this up appropriately so that your .git directory is not publicly accessible via a browser!
+  * Set up your Catalog App project (from your GitHub repository from earlier in the Nanodegree program) so that it functions correctly when visiting your server’s IP address in a browser. 
+  * Write up how to fix the sudo unable to resolve host problem.
 Your Amazon EC2 Instance's public URL will look something like this: http://ec2-XX-XX-XXX-XXX.us-west-2.compute.amazonaws.com/ where the X's are replaced with your instance's IP address. You can use this url when configuring third party authentication.
 
 
@@ -221,27 +328,5 @@ In addition to the basic functions listed above, this project has several opport
 If you choose to implement these features note them in the README file included with your project submission. Mention what features you added and how your evaluator should use or verify the feature.
 To Submit
 
-Your README.md file should include all of the following:
-The IP address and SSH port so your server can be accessed by the reviewer.
-The complete URL to your hosted web application.
-A summary of software you installed and configuration changes made.
-Hint: refer to the .bash_history files on the server!
-A list of any third-party resources you made use of to complete this project.
-Open your ~/.ssh/udacity_key.rsa file in a text editor and copy the contents of that file.
-During the submission process, paste the contents of the udacity_key.rsa file into the "Notes to Reviewer" field.
-When you're ready to submit your project, click here and follow the instructions.
-If you run into any trouble, send us an e-mail at fullstack-project@udacity.com, and we will be more than happy to help you.
-Additional Resources
-
-Students have compiled these lists of useful resources, feel free to use these lists and to contribute your own findings!
-Markedly underwhelming and potentially wrong resource list for P5 (This is a good list, despite the title!)
-Project 5 Resources
-P5 How I got through it
-
-
-https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-14-04
-https://www.digitalocean.com/community/tutorials/how-to-connect-to-your-droplet-with-ssh
-https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-14-04
-https://www.digitalocean.com/community/tutorials/additional-recommended-steps-for-new-ubuntu-14-04-servers
 
 [Project Guide](https://docs.google.com/document/d/1J0gpbuSlcFa2IQScrTIqI6o3dice-9T7v8EDNjJDfUI/pub?embedded=true)
