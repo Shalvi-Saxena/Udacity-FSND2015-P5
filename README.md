@@ -1,12 +1,17 @@
 # Udacity Full Stack Nanodegree Project 5 - Linux Server Configuration
 
 ## Project Location
+
 * Server IP: 52.36.219.116
 * Port: 2200
-* Project Accesible at: http://ec2-52-36-219-116.us-west-2.compute.amazonaws.com/
+* Project Accessible at: http://ec2-52-36-219-116.us-west-2.compute.amazonaws.com/
 * SSH access via `ssh -i ~/.ssh/grader.rsa grader@52.36.219.116 -p 2200`
 
+
+# TODO: check links
+
 ## Table of Contents
+
 * [Create Grader Account](#create-grader-account)
 * [Give Grader SUDO](#give-grader-sudo)
 * [Create SSH Keys](#create-ssh-keys)
@@ -23,12 +28,14 @@
 
 
 ## Create grader Account
+
 * Created **grader** account with the following command: `sudo adduser grader`
 * Resources used for this step.
   * https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089468
 
 
 ## Give **grader** SUDO
+
 * Create the file `grader` in /etc/sudoer.d/ with `touch /etc/sudoers.d/grader`
 * Add the following text to the newly created file: `grader ALL=(ALL:ALL) NOPASSWD:ALL`
 * Resources used for this step.
@@ -36,6 +43,7 @@
 
 
 ## Create SSH Keys
+
 * Create SSH key with **ssh-keygen**
 * Create an `.ssh` direcory in `/home/grader/` on the server with `mkdir .ssh`.
 * CD into the the directory just created with `cd ~/.ssh/`.
@@ -54,6 +62,7 @@
 
 
 ##  Update Packages
+
 * Use the following commands to update the packages on the server.
   * `sudo apt-get update`
   * `sudo apt-get upgrade`. Type "Y" when asked if you would like to proceed.
@@ -62,6 +71,7 @@
 
 
 ## Configure Timezone
+
 * Check the current timezone with `date`.
 * If you do not set UTC in the output change the timezone with `dpkg-reconfigure tzdata`.
 * Resources used for this step.
@@ -69,6 +79,7 @@
 
 
 ## Change SSH Port
+
 * Use `nano` to edit the SSH config file with `sudo /etc/ssh/sshd_config`.
 * Change the default port from 22 to 2200 by changing the following
 
@@ -94,6 +105,7 @@ PasswordAuthentication no
 
 
 ## Configure Firewall
+
 * Check the status of the firewall with `sudo ufw status`.
 * Ensure that by default inbound connections are denied with `sudo ufw default deny incoming`.
 * Ensure the all outbound connections are allowed with `sudo ufw default allow outgoing`.
@@ -109,6 +121,7 @@ PasswordAuthentication no
 ## Install your application
 
 ### Install Apache
+
 * Check to see if Apache is installed with `apache2 -v`
 * If Apache is installed you will see something like this:
 
@@ -128,6 +141,7 @@ PasswordAuthentication no
   * https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu-14-04
 
 ### Install mod_wsgi
+
 * Install libapache2-mod-wsgi with this command:
 
   `sudo apt-get install libapache2-mod-wsgi python-dev`
@@ -139,6 +153,7 @@ PasswordAuthentication no
   * https://www.digitalocean.com/community/tutorials/how-to-serve-django-applications-with-apache-and-mod_wsgi-on-ubuntu-14-04
 
 ## Install PostgreSQL
+
 * Install PostgreSQL:
 
   ```shell
@@ -209,6 +224,7 @@ catalog=>
   * http://www.postgresql.org/message-id/20040930142124.GA72856@winnie.fuhr.org
 
 ## Install Catalog App
+
 * Install git:
 ```shell
 sudo apt-get install -y git
@@ -316,8 +332,19 @@ Deny from all
   * http://flask.pocoo.org/docs/0.10/quickstart/#sessions
   * http://stackoverflow.com/questions/6142437/make-git-directory-web-inaccessible
 
-# Remaining Tasks
-  * Set up your Catalog App project (from your GitHub repository from earlier in the Nanodegree program) so that it functions correctly when visiting your server’s IP address in a browser. 
+* Install Dependancies
+  ```shell
+  cd /var/www/catalog/catalog
+  source venv/bin/activate
+  sudo pip install httplib2 requests oauth2client sqlalchemy psycopg2
+  deactivate
+  ```
+
+  * http://stackoverflow.com/questions/29134512/insecureplatformwarning-a-true-sslcontext-object-is-not-available-this-prevent
+
+## Remaining Tasks
+
+  * Set up your Catalog App project (from your GitHub repository from earlier in the Nanodegree program) so that it functions correctly when visiting your server’s IP address in a browser.
   * Write up how to fix the sudo unable to resolve host problem.
 Your Amazon EC2 Instance's public URL will look something like this: http://ec2-XX-XX-XXX-XXX.us-west-2.compute.amazonaws.com/ where the X's are replaced with your instance's IP address. You can use this url when configuring third party authentication.
 
