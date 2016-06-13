@@ -249,6 +249,8 @@ def hello():
 if __name__ == "__main__":
     app.run()
 ```
+* Rename the main application file to **__init__.py**.
+
 * Set up environment and install Flask:
 ```shell
 sudo apt-get install python-pip
@@ -340,7 +342,14 @@ Deny from all
   deactivate
   ```
 
-  * http://stackoverflow.com/questions/29134512/insecureplatformwarning-a-true-sslcontext-object-is-not-available-this-prevent
+  * Update the database connection to use PostgreSQL by change the refence to SQLite to the following to the **db_model.py** and **__init__.py**:
+  ```python
+  'postgresql://catalog:<password>@localhost/catalog'
+  ```
+
+
+
+   http://stackoverflow.com/questions/29134512/insecureplatformwarning-a-true-sslcontext-object-is-not-available-this-prevent
 
 ## Remaining Tasks
 
