@@ -1,9 +1,9 @@
 # Udacity Full Stack Nanodegree Project 5 - Linux Server Configuration
 
 ## Project Location
-* Server IP: 52.36.219.116
+* Server IP: 52.40.51.21
 * Port: 2200
-* Project Accesible at: http://ec2-52-36-219-116.us-west-2.compute.amazonaws.com/
+* Project Accesible at: http://ec2-52-40-51-21.us-west-2.compute.amazonaws.com/
 * SSH access via `ssh -i ~/.ssh/grader.rsa grader@52.36.219.116 -p 2200`
 
 ## Table of Contents
