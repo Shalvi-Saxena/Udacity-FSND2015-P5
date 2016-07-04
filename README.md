@@ -35,7 +35,7 @@
 ## Give grader SUDO
 
 - Create the file `grader` in /etc/sudoer.d/ with `touch /etc/sudoers.d/grader`.
-- Add the following text to the newly created file: `grader ALL=(ALL:ALL)`
+- Add the following text to the newly created file: `grader ALL=(ALL:ALL) ALL`
 - Resources used for this step.
 
   - <https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089471>
