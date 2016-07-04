@@ -124,6 +124,9 @@ PermitRootLogin yes
 
 - Restart ssh with `sudo service ssh restart`.
 - Exit the root session with `exit` and log back in as **grader**.
+  ```shell
+  ssh -i ~/.ssh/grader.rsa grader@52.10.176.92 -p 2200
+  ```
 
 ## Configure Firewall
 
