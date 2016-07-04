@@ -36,9 +36,11 @@
 
 - Create the file `grader` in /etc/sudoer.d/ with `touch /etc/sudoers.d/grader`.
 - Add the following text to the newly created file: `grader ALL=(ALL:ALL) ALL`
+- Fix "sudo: unable to resolve host" error.
 - Resources used for this step.
 
   - <https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089471>
+  - <http://ubuntuforums.org/showthread.php?t=2255583>
 
 ## Create SSH Keys
 
@@ -124,6 +126,7 @@ PermitRootLogin yes
 
 - Restart ssh with `sudo service ssh restart`.
 - Exit the root session with `exit` and log back in as **grader**.
+
   ```shell
   ssh -i ~/.ssh/grader.rsa grader@52.10.176.92 -p 2200
   ```
