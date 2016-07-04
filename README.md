@@ -1,9 +1,10 @@
 # Udacity Full Stack Nanodegree Project 5 - Linux Server Configuration
 
 ## Project Location
+
 * Server IP: 52.40.51.21
 * Port: 2200
-* Project Accesible at: http://ec2-52-40-51-21.us-west-2.compute.amazonaws.com/
+* Project Accessible at: http://ec2-52-40-51-21.us-west-2.compute.amazonaws.com/
 * SSH access via `ssh -i ~/.ssh/grader.rsa grader@52.40.51.21 -p 2200`
 
 
@@ -43,7 +44,7 @@
 
 ## Create SSH Keys
 
-* Create SSH key with **ssh-keygen**
+* Create SSH key with **ssh-keygen** on your local machine(OSX or Linux)
 * Create an `.ssh` direcory in `/home/grader/` on the server with `mkdir .ssh`.
 * CD into the the directory just created with `cd ~/.ssh/`.
 * Create an `authorized_keys` file in the `.ssh` dirctory with `touch authorized_keys`.
@@ -52,7 +53,7 @@
   * Using `chmod` set `~/.ssh` to 700 with `chmod 700 /home/grader/.ssh/`.
   * Again, using `chmod` set the `authorized_keys` file to 644 with `chmod 644 /home/grader/.ssh/authorized_keys`.
 * Check owner and group of `~/.ssh` and `~/.ssh/authorized_keys`.
-* If the owner and group are not **grader**, set them to **grader** with
+* If the owner and group are not **grader**, set them to **grader** with `chown -R grader:grader /home/grader/.ssh/`
 * Check to ensure you can log into the **grader** account with `ssh -i ~/.ssh/grader.rsa  grader@52.36.219.116`.
   * Recheck you followed the steps above in the event of an issue or Google the error message.  This how I figured out that password login was disabled on my instance already.
 * Resources used for this step.
@@ -72,14 +73,17 @@
 ## Configure Timezone
 
 * Check the current timezone with `date`.
-* If you do not set UTC in the output change the timezone with `dpkg-reconfigure tzdata`.
+* If you do not see UTC in the output, change the timezone with `dpkg-reconfigure tzdata`.
+  * Select "None of the above" from the first menu.
+  * Select "UTC" at the second menu.
+* You can improve the accuracy of the clock by installing `ntp` with `sudo apt-get install ntp`.
 * Resources used for this step.
   * https://help.ubuntu.com/community/UbuntuTime
 
 
-## Change SSH Port
+## Change SSH Security Improvements
 
-* Use `nano` to edit the SSH config file with `sudo /etc/ssh/sshd_config`.
+* Use `nano` to edit the SSH config file with `sudo nano /etc/ssh/sshd_config`.
 * Change the default port from 22 to 2200 by changing the following
 
 ```
@@ -100,7 +104,15 @@ Port 22
 # Change to no to disable tunnelled clear text passwords
 PasswordAuthentication no
 ```
-* Resart ssh with `sudo service ssh restart`
+
+* Disable ssh login for **root** user by changing "yes" to "no"  on the following line
+
+```shell
+PermitRootLogin yes
+```
+
+* Restart ssh with `sudo service ssh restart`.
+* Exit the root session with `exit` and log back in as **grader**.
 
 
 ## Configure Firewall
@@ -159,6 +171,10 @@ PasswordAuthentication no
   sudo apt-get update
   sudo apt-get install postgresql postgresql-contrib
   ```
+* And while we are at it, let's install `libpq-dev`. It is required to build psycopg2.
+  ```shell
+  sudo apt-get install libpq-dev
+  ```
 
 * Ensure remote connections are disabled.
 
@@ -176,16 +192,30 @@ PasswordAuthentication no
 
   The host IPs point to local addresses by default.
 
+*
+
 * Create a new role named **catalog** with:
   ```shell
-  sudo -u -i postgres
+  sudo su - postgres
   psql```
 
   ```sql
-  CREATE USER catalog WITH CREATEDB;
-  \password catalog
+  CREATE USER catalog WITH PASSWORD 'somepassword';
+  ALTER USER catalog CREATEDB;
+  \du
   ```
-  Enter the desired password.
+
+* Create the catalog database:
+  ```sql
+  CREATE DATABASE catalog WITH OWNER catalog;
+  ```
+
+* Switch to **catalog** database:
+  ```sql
+  postgres=> \c catalog
+  You are now connected to database "catalog" as user "postgres".
+  catalog=>
+  ```
 
 * By default PostgreSQL requires a matching system user for any role. For example, it expects a system user **catalog** when attempting to login with:
 ```
@@ -194,26 +224,10 @@ sudo: unable to resolve host ip-10-20-7-202
 No passwd entry for user 'catalog'
 ```
 
-* In order to avoid creating an additional system user with the user name **catalog** we login to with the following and enter the password we provided previously:
-```shell
-psql -U catalog -d postgres -h 127.0.0.1 -W
-```
-
-* Check that **catalog** is the current user:
-```sql
-SELECT current_user;
-```
-* Create the catalog database:
-```sql
-CREATE DATABASE catalog WITH OWNER catalog;
-```
-* Switch to **catalog** database:
-```sql
-postgres=> \c catalog
-Password for user catalog:
-SSL connection (cipher: DHE-RSA-AES256-GCM-SHA384, bits: 256)
-You are now connected to database "catalog" as user "catalog".
-catalog=>
+* Ensure that the database is not able to be modified by unauthorized users.
+```sqlRE
+REVOKE ALL ON SCHEMA public FROM public;
+GRANT ALL ON SCHEMA public TO catalog;
 ```
 
 * Resources used for this step.
@@ -341,11 +355,25 @@ Deny from all
   deactivate
   ```
 
-  * Update the database connection to use PostgreSQL by change the refence to SQLite to the following to the **db_model.py** and **__init__.py**:
+* Update the database connection to use PostgreSQL by change the refence to SQLite to the following to the **db_model.py** and **__init__.py**:
   ```python
   'postgresql://catalog:<password>@localhost/catalog'
   ```
-
+* Create the database schema and load test data.
+  * Run the following to create the database schema:
+  ```python
+  python db_model.py
+  ```
+  * Log into the database server.
+  ```shell
+  psql -U catalog -d postgres -h 127.0.0.1 -W
+  ```
+  * Switch to the catalog database.
+  ```sql
+  \c catalog
+  ```
+  * Import the test data.
+  ```sql
 
 
    http://stackoverflow.com/questions/29134512/insecureplatformwarning-a-true-sslcontext-object-is-not-available-this-prevent
