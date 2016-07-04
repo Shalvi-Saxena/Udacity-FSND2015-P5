@@ -56,7 +56,7 @@
 
 - If the owner and group are not **grader**, set them to **grader** with `chown -R grader:grader /home/grader/.ssh/`
 
-- Check to ensure you can log into the **grader** account with `ssh -i ~/.ssh/grader.rsa grader@52.36.219.116`.
+- Check to ensure you can log into the **grader** account with `ssh -i ~/.ssh/grader.rsa grader@52.10.176.92`.
 
   - Recheck you followed the steps above in the event of an issue or Google the error message. This how I figured out that password login was disabled on my instance already.
 
